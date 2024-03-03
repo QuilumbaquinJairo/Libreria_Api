@@ -21,6 +21,7 @@ namespace LibreriaORM.Modelo
         public RolEnum Rol { get; set; }
         public Usuario Usuario { get; set; }
         public Administrador Administrador { get; set; }
+        Prestamo Prestamo { get; set; }
     }
     public enum RolEnum
     {

@@ -93,6 +93,39 @@ namespace LibreriaORM.Migrations
                     b.UseTptMappingStrategy();
                 });
 
+            modelBuilder.Entity("LibreriaORM.Modelo.Prestamo", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("IdMaterialBibliografico")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdPersona")
+                        .HasColumnType("int");
+
+                    b.Property<string>("fechaRegreso")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("fechaSalida")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("IdMaterialBibliografico")
+                        .IsUnique();
+
+                    b.HasIndex("IdPersona")
+                        .IsUnique();
+
+                    b.ToTable("Prestamo", (string)null);
+                });
+
             modelBuilder.Entity("LibreriaORM.Modelo.Libro", b =>
                 {
                     b.HasBaseType("LibreriaORM.Modelo.MaterialBibliografico");
@@ -154,6 +187,25 @@ namespace LibreriaORM.Migrations
                         .HasColumnType("int");
 
                     b.ToTable("Usuario", (string)null);
+                });
+
+            modelBuilder.Entity("LibreriaORM.Modelo.Prestamo", b =>
+                {
+                    b.HasOne("LibreriaORM.Modelo.MaterialBibliografico", "MaterialBibliografico")
+                        .WithOne()
+                        .HasForeignKey("LibreriaORM.Modelo.Prestamo", "IdMaterialBibliografico")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LibreriaORM.Modelo.Persona", "Persona")
+                        .WithOne()
+                        .HasForeignKey("LibreriaORM.Modelo.Prestamo", "IdPersona")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MaterialBibliografico");
+
+                    b.Navigation("Persona");
                 });
 
             modelBuilder.Entity("LibreriaORM.Modelo.Libro", b =>
