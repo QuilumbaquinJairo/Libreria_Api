@@ -23,6 +23,7 @@ namespace LibreriaORM.Modelo
         Libro Libro { set; get; }   
         Tesis Tesis { set; get; }
         Revista Revista { set; get; }
+        Prestamo Prestamo { set; get; }
     }
     public enum tipoMaterial
     {
