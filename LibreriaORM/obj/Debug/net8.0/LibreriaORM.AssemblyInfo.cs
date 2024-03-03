@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LibreriaORM")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee9d9db8f14e26c7f3f4f9fe9a7292cb9bcd3d87")]
 [assembly: System.Reflection.AssemblyProductAttribute("LibreriaORM")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LibreriaORM")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

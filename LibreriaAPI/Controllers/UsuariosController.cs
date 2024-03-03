@@ -2,8 +2,10 @@
 using LibreriaORM.Modelo;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LibreriaAPI.Controllers
 {
@@ -16,55 +18,54 @@ namespace LibreriaAPI.Controllers
         {
             _context = context;
         }
+
         // GET: api/<UsuariosController>
         [HttpGet]
-        public Task<List<Usuario>> GetUsuarios()
+        public IActionResult GetUsuarios()
         {
-            List<Usuario> usuarios = new List<Usuario>();
             try
             {
                 var listaUsuarios = _context.Usuarios.ToList();
                 var query =
-                from usuario in listaUsuarios
-                select new
-                {
-                    usuarioNombre = usuario.nombre,
-                    usuarioApellido = usuario.apellido,
-                    usuarioTelefono = usuario.telefono,
-                    usuarioSancion = usuario.sancion,
-                    usuarioCorreo = usuario.correo,
-                    usuarioFacultad = usuario.Facultad
-                };
-                Usuario dtoUsuario = new();
-                foreach (var dato in query)
-                {
-                    dtoUsuario.nombre = dato.usuarioNombre;
-                    dtoUsuario.apellido = dato.usuarioApellido;
-                    dtoUsuario.correo = dato.usuarioCorreo;
-                    dtoUsuario.telefono = dato.usuarioTelefono;
-                    dtoUsuario.sancion = dato.usuarioSancion;
-                    dtoUsuario.Facultad = dato.usuarioFacultad;
-                    usuarios.Add(dtoUsuario);
-                }
+                    from usuario in listaUsuarios
+                    select new
+                    {
+                        usuarioNombre = usuario.nombre,
+                        usuarioApellido = usuario.apellido,
+                        usuarioTelefono = usuario.telefono,
+                        usuarioSancion = usuario.sancion,
+                        usuarioCorreo = usuario.correo,
+                        usuarioFacultad = usuario.Facultad
+                    };
+                return Ok(query);
             }
             catch (Exception ex)
             {
                 // Log or handle the exception
                 Console.WriteLine($"Exception: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor");
             }
-
-            
-           
-            
-
-            return Task.Run(()=>usuarios);
         }
 
         // GET api/<UsuariosController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetUsuario(int id)
         {
-            return "value";
+            try
+            {
+                var usuario = _context.Usuarios.Find(id);
+                if (usuario == null)
+                {
+                    return NotFound("Usuario no encontrado");
+                }
+                return Ok(usuario);
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception
+                Console.WriteLine($"Exception: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor");
+            }
         }
 
         // POST api/<UsuariosController>
@@ -75,6 +76,13 @@ namespace LibreriaAPI.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Verificar unicidad del correo electrónico
+                    if (_context.Usuarios.Any(u => u.correo == userDTO.Correo))
+                    {
+                        ModelState.AddModelError("Correo", "El correo electrónico ya está en uso");
+                        return BadRequest(ModelState);
+                    }
+
                     // Crear un nuevo objeto Usuario y asignarle los valores del DTO
                     var nuevoUsuario = new Usuario
                     {
@@ -109,14 +117,56 @@ namespace LibreriaAPI.Controllers
 
         // PUT api/<UsuariosController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] UsuarioDTO userDTO)
         {
+            try
+            {
+                var usuario = _context.Usuarios.Find(id);
+                if (usuario == null)
+                {
+                    return NotFound("Usuario no encontrado");
+                }
+
+                usuario.nombre = userDTO.Nombre;
+                usuario.apellido = userDTO.Apellido;
+                usuario.correo = userDTO.Correo;
+                usuario.telefono = userDTO.Telefono;
+                usuario.sancion = userDTO.Sancion;
+                usuario.Facultad = userDTO.Facultad;
+
+                _context.SaveChanges();
+
+                return Ok("Usuario actualizado correctamente");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor");
+            }
         }
 
         // DELETE api/<UsuariosController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                var usuario = _context.Usuarios.Find(id);
+                if (usuario == null)
+                {
+                    return NotFound("Usuario no encontrado");
+                }
+
+                _context.Usuarios.Remove(usuario);
+                _context.SaveChanges();
+
+                return Ok("Usuario eliminado correctamente");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor");
+            }
         }
     }
 }

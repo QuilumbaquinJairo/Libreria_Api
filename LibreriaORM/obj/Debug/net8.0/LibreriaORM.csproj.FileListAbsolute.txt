@@ -13,3 +13,18 @@ A:\Documentos\Cuarto Semestre\Bases De Datos\Proyecto_3P\LibreriaORM\obj\Debug\n
 A:\Documentos\Cuarto Semestre\Bases De Datos\Proyecto_3P\LibreriaORM\obj\Debug\net8.0\LibreriaORM.pdb
 A:\Documentos\Cuarto Semestre\Bases De Datos\Proyecto_3P\LibreriaORM\obj\Debug\net8.0\LibreriaORM.genruntimeconfig.cache
 A:\Documentos\Cuarto Semestre\Bases De Datos\Proyecto_3P\LibreriaORM\obj\Debug\net8.0\ref\LibreriaORM.dll
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\bin\Debug\net8.0\LibreriaORM.deps.json
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\bin\Debug\net8.0\LibreriaORM.runtimeconfig.json
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\bin\Debug\net8.0\LibreriaORM.dll
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\bin\Debug\net8.0\LibreriaORM.pdb
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\LibreriaORM.csproj.AssemblyReference.cache
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\LibreriaORM.GeneratedMSBuildEditorConfig.editorconfig
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\LibreriaORM.AssemblyInfoInputs.cache
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\LibreriaORM.AssemblyInfo.cs
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\LibreriaORM.csproj.CoreCompileInputs.cache
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\LibreriaORM.sourcelink.json
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\LibreriaORM.dll
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\refint\LibreriaORM.dll
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\LibreriaORM.pdb
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\LibreriaORM.genruntimeconfig.cache
+C:\ADRIAN\SEMESTRE NOV23 - MARZ24\BDD\TERCER PARCIAL\EXAMEN3\Libreria_Api\LibreriaORM\obj\Debug\net8.0\ref\LibreriaORM.dll
