@@ -1,8 +1,9 @@
 ﻿using LibreriaORM.Data;
 using LibreriaORM.Modelo;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LibreriaAPI.Controllers
 {
@@ -10,11 +11,13 @@ namespace LibreriaAPI.Controllers
     [ApiController]
     public class LibrosController : ControllerBase
     {
-        private LibreriaContext _context;
+        private readonly LibreriaContext _context;
+
         public LibrosController(LibreriaContext context)
         {
             _context = context;
         }
+
         // GET: api/<LibrosController>
         [HttpGet]
         public IActionResult GetLibros()
@@ -26,8 +29,7 @@ namespace LibreriaAPI.Controllers
 
                 foreach (var dato in listaLibros)
                 {
-                    LibroDTO libroDTO = new LibroDTO();  // Crear un nuevo objeto en cada iteración
-
+                    LibroDTO libroDTO = new LibroDTO();
                     libroDTO.Autor = dato.autor;
                     libroDTO.EditorialLibro = dato.editorialLibro;
                     libroDTO.Titulo = dato.titulo;
@@ -37,14 +39,11 @@ namespace LibreriaAPI.Controllers
                     listaResultado.Add(libroDTO);
                 }
 
-                // Devolver una respuesta de éxito con la lista de libros y el código 200 OK
                 return Ok(new { Status = "Success", Libros = listaResultado });
             }
             catch (Exception ex)
             {
-                // Log o manejar la excepción
                 Console.WriteLine($"Exception: {ex.Message}");
-                // Devolver un error interno del servidor con el código 500 Internal Server Error
                 return StatusCode(500, new { Status = "Error", Message = "Error interno del servidor" });
             }
         }
@@ -55,52 +54,31 @@ namespace LibreriaAPI.Controllers
         {
             try
             {
-                var listaLibros = _context.Libros.ToList();
-                var listaMaterialBibliografico = _context.MaterialBibliograficos.ToList();
-                LibroDTO libroBuscado = new LibroDTO();
+                var libro = _context.Libros.FirstOrDefault(l => l.IdMaterialBibliografico == id);
 
-                var query =
-                    from libro in listaLibros
-                    where libro.IdMaterialBibliografico == id
-                    select new LibroDTO
+                if (libro != null)
+                {
+                    var libroDTO = new LibroDTO
                     {
                         Autor = libro.autor,
                         EditorialLibro = libro.editorialLibro,
                         Anio = libro.anio,
                         Titulo = libro.titulo,
                         Status = libro.status
-
                     };
 
-                if(query.Any())
-                {
-                    foreach (var dato in query)
-                    {
-                        libroBuscado.Autor = dato.Autor;
-                        libroBuscado.EditorialLibro = dato.EditorialLibro;
-                        libroBuscado.Titulo = dato.Titulo;
-                        libroBuscado.Anio = dato.Anio;
-                        libroBuscado.Status = dato.Status;
-                    }
-                }else
-                {
-                    return Ok(new { Status = "Libro No encontrado"});
+                    return Ok(new { Status = "Success", Libro = libroDTO });
                 }
-                
-
-                // Devolver una respuesta de éxito con la lista de libros y el código 200 OK
-                return Ok(new { Status = "Success", Libro = libroBuscado });
+                else
+                {
+                    return NotFound( "Libro no encontrado" );
+                }
             }
             catch (Exception ex)
             {
-                // Log o manejar la excepción
                 Console.WriteLine($"Exception: {ex.Message}");
-                // Devolver un error interno del servidor con el código 500 Internal Server Error
-                return StatusCode(500, new { Status = "Error", Message = "Error interno del servidor" });
+                return StatusCode(500, new {  Message = "Error interno del servidor" });
             }
-
-
-         
         }
 
         // POST api/<LibrosController>
@@ -111,7 +89,11 @@ namespace LibreriaAPI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // Crear un nuevo objeto Libro y asignarle los valores del DTO
+                    if (libroDTO.Anio > DateTime.Now.Year)
+                    {
+                        return BadRequest("El año no puede ser posterior al año actual");
+                    }
+
                     var nuevoLibro = new Libro
                     {
                         autor = libroDTO.Autor,
@@ -121,37 +103,80 @@ namespace LibreriaAPI.Controllers
                         editorialLibro = libroDTO.EditorialLibro
                     };
 
-                    // Agregar el nuevo libro al contexto y guardar los cambios
                     _context.Libros.Add(nuevoLibro);
                     _context.SaveChanges();
 
-                    // Devolver una respuesta de éxito con el nuevo libro creado
-                    return Ok(new { Status = "Success", Message = "Libro creado exitosamente", Libro = libroDTO });
+
+                    return CreatedAtAction(nameof(GetLibros), "Libro creado exitosamente");
                 }
                 else
                 {
-                    // Si el modelo no es válido, devolver un error de solicitud incorrecta
                     return BadRequest(ModelState);
                 }
             }
             catch (Exception ex)
             {
-                // Log o manejar la excepción
                 Console.WriteLine($"Exception: {ex.Message}");
-                return StatusCode(500, "Error interno del servidor");
+                return StatusCode(500, new { Status = "Error", Message = "Error interno del servidor" });
             }
         }
-
         // PUT api/<LibrosController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] LibroDTO libroDTO)
         {
+            try
+            {
+                var libro = _context.Libros.FirstOrDefault(l => l.IdMaterialBibliografico == id);
+
+                if (libro != null)
+                {
+                    libro.autor = libroDTO.Autor;
+                    libro.editorialLibro = libroDTO.EditorialLibro;
+                    libro.titulo = libroDTO.Titulo;
+                    libro.anio = libroDTO.Anio;
+                    libro.status = libroDTO.Status;
+
+                    _context.SaveChanges();
+
+                    return Ok("Libro actualizado exitosamente");
+                }
+                else
+                {
+                    return NotFound("Libro no encontrado" );
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return StatusCode(500, new { Status = "Error", Message = "Error interno del servidor" });
+            }
         }
 
         // DELETE api/<LibrosController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                var libro = _context.Libros.FirstOrDefault(l => l.IdMaterialBibliografico == id);
+
+                if (libro != null)
+                {
+                    _context.Libros.Remove(libro);
+                    _context.SaveChanges();
+
+                    return Ok( "Libro eliminado exitosamente" );
+                }
+                else
+                {
+                    return NotFound( "Libro no encontrado" );
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return StatusCode(500, new { Status = "Error", Message = "Error interno del servidor" });
+            }
         }
     }
 }
