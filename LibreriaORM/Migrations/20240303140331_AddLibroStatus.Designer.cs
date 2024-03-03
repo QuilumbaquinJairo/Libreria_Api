@@ -4,6 +4,7 @@ using LibreriaORM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibreriaORM.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    partial class LibreriaContextModelSnapshot : ModelSnapshot
+    [Migration("20240303140331_AddLibroStatus")]
+    partial class AddLibroStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,7 +100,7 @@ namespace LibreriaORM.Migrations
                 {
                     b.HasBaseType("LibreriaORM.Modelo.MaterialBibliografico");
 
-                    b.Property<int>("MaterialBibliograficoTempId1")
+                    b.Property<int>("IdLibro")
                         .HasColumnType("int");
 
                     b.Property<string>("editorialLibro")
@@ -114,6 +117,9 @@ namespace LibreriaORM.Migrations
                     b.Property<string>("EditorialRevista")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdRevista")
+                        .HasColumnType("int");
 
                     b.ToTable("Revista", (string)null);
                 });
@@ -158,35 +164,29 @@ namespace LibreriaORM.Migrations
 
             modelBuilder.Entity("LibreriaORM.Modelo.Libro", b =>
                 {
-                    b.HasOne("LibreriaORM.Modelo.MaterialBibliografico", "MaterialBibliografico")
+                    b.HasOne("LibreriaORM.Modelo.MaterialBibliografico", null)
                         .WithOne()
                         .HasForeignKey("LibreriaORM.Modelo.Libro", "IdMaterialBibliografico")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MaterialBibliografico");
                 });
 
             modelBuilder.Entity("LibreriaORM.Modelo.Revista", b =>
                 {
-                    b.HasOne("LibreriaORM.Modelo.MaterialBibliografico", "MaterialBibliografico")
+                    b.HasOne("LibreriaORM.Modelo.MaterialBibliografico", null)
                         .WithOne()
                         .HasForeignKey("LibreriaORM.Modelo.Revista", "IdMaterialBibliografico")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MaterialBibliografico");
                 });
 
             modelBuilder.Entity("LibreriaORM.Modelo.Tesis", b =>
                 {
-                    b.HasOne("LibreriaORM.Modelo.MaterialBibliografico", "MaterialBibliografico")
+                    b.HasOne("LibreriaORM.Modelo.MaterialBibliografico", null)
                         .WithOne()
                         .HasForeignKey("LibreriaORM.Modelo.Tesis", "IdMaterialBibliografico")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MaterialBibliografico");
                 });
 
             modelBuilder.Entity("LibreriaORM.Modelo.Administrador", b =>
