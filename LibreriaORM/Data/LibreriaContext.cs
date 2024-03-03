@@ -20,6 +20,7 @@ namespace LibreriaORM.Data
         public DbSet<Tesis> Tesis { get; set; }
         public DbSet<Revista> Revista { get; set; }
         public DbSet<MaterialBibliografico> MaterialBibliograficos { get; set; }
+        public DbSet<Prestamo> Prestamos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Persona>().Property(p => p.Rol)
@@ -33,6 +34,10 @@ namespace LibreriaORM.Data
            .HasForeignKey<Revista>(l => l.IdMaterialBibliografico);
             modelBuilder.Entity<Tesis>().HasOne(l => l.MaterialBibliografico).WithOne()
            .HasForeignKey<Tesis>(l => l.IdMaterialBibliografico);
+            modelBuilder.Entity<Prestamo>().HasOne(l => l.MaterialBibliografico).WithOne()
+          .HasForeignKey<Prestamo>(l => l.IdMaterialBibliografico);
+            modelBuilder.Entity<Prestamo>().HasOne(l => l.Persona).WithOne()
+          .HasForeignKey<Prestamo>(l => l.IdPersona);
 
             modelBuilder.Entity<Persona>().ToTable("Persona");
             modelBuilder.Entity<Usuario>().ToTable("Usuario");
@@ -41,6 +46,7 @@ namespace LibreriaORM.Data
             modelBuilder.Entity<Tesis>().ToTable("Tesis");
             modelBuilder.Entity<Revista>().ToTable("Revista");
             modelBuilder.Entity<MaterialBibliografico>().ToTable("MaterialBibliografico");
+            modelBuilder.Entity<Prestamo>().ToTable("Prestamo");
             base.OnModelCreating(modelBuilder);
 
         }
