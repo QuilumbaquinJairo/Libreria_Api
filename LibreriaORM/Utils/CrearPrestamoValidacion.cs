@@ -36,5 +36,25 @@ namespace LibreriaORM.Utils
             }
             return flag;
         }
+
+        public Boolean validarHistorial(int idPersona,List<Prestamo>? listaprestamos)
+        {
+            var flag = false;
+            var query =
+                from prestamo in listaprestamos
+                where prestamo.IdPersona == idPersona && prestamo.statusPrestamo == true
+                select prestamo;
+            var fechaValidar = query.First().fechaRegreso;
+            var fecha = DateTime.Parse(fechaValidar);
+
+            if (query.Any() && query.Count() <= 3)
+            {
+                flag = true;
+            }
+
+            return flag;
+        }
+        
+
     }
 }
