@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibreriaORM.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,8 @@ namespace LibreriaORM.Data
     {
         
         public int IdPersona { get; set; }
-
         public int IdMaterialBibliografico { get; set; }
-       
+
 
     }
 }

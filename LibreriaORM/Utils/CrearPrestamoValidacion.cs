@@ -10,12 +10,12 @@ namespace LibreriaORM.Utils
 {
     public class CrearPrestamoValidacion
     {
-        public Boolean validarPersona(List<Persona> listaUsuarios, PrestamoDTO prestamoDTO)
+        public Boolean validarPersona(List<Persona> listaUsuarios, int idPersona)
         {
             Boolean flag = false;
             var query =
                 from usuario in listaUsuarios
-                where usuario.IdPersona == prestamoDTO.IdPersona
+                where usuario.IdPersona == idPersona
                 select usuario;
             if (query.Any())
             {
@@ -23,12 +23,12 @@ namespace LibreriaORM.Utils
             }
             return flag;
         }
-        public Boolean validarLibro(List<MaterialBibliografico> listalibro, PrestamoDTO prestamoDTO)
+        public Boolean validarLibro(List<MaterialBibliografico> listalibro, int idMaterial)
         {
             Boolean flag = false;
             var query =
                 from libro in listalibro
-                where libro.IdMaterialBibliografico == prestamoDTO.IdMaterialBibliografico
+                where libro.IdMaterialBibliografico == idMaterial && libro.status  == true
                 select libro;
             if (query.Any())
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibreriaORM.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,6 +24,14 @@ namespace LibreriaORM.Modelo
 
         public Persona Persona;
         public MaterialBibliografico MaterialBibliografico;
+
+        public Prestamo() 
+        {
+            var fecha = new Fecha();
+            statusPrestamo = true;
+            fechaSalida = DateTime.Now.ToString();
+            fechaRegreso = fecha.CalcularDiaRegreso(DateTime.Now).ToString();
+        }
 
     }
 }
