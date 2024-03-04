@@ -37,10 +37,17 @@ namespace LibreriaAPI.Controllers
             return Ok(new { Status = "Success", Message = "Lista de libros obtenida", Libro = listaResultados });
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("{idPersona}")]
+        public IActionResult Get(int idPersona)
         {
             var listaPrestamos = _context.Prestamos.ToList();
+            var listaPersonas = _context.Persona.ToList();
+            var query =
+                from pres in listaPrestamos
+                join persona in listaPersonas on pres.IdPersona equals persona.IdPersona
+                where persona.IdPersona == idPersona
+                select pres;
+            
             var listaResultados = new List<PrestamoDTO>();
             var prestamo = new PrestamoDTO();
             foreach (var data in listaPrestamos)
