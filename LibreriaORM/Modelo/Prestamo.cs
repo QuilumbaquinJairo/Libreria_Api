@@ -13,11 +13,10 @@ namespace LibreriaORM.Modelo
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
-        public int id { get; set; }
+        public int IdPrestamo { get; set; }
         public string fechaSalida { get; set; }
         public string fechaRegreso { get; set; }
         public int IdPersona { get; set; }
-        
         public int IdMaterialBibliografico { get; set; }
         
 

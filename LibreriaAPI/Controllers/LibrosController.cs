@@ -110,8 +110,8 @@ namespace LibreriaAPI.Controllers
                     _context.Libros.Add(nuevoLibro);
                     _context.SaveChanges();
 
-                  
-                    return CreatedAtAction(nameof(GetLibros), "Libro creado exitosamente");
+
+                    return Ok(new { Status = "Success", Libro = libroDTO });
                 }
                 else
                 {
