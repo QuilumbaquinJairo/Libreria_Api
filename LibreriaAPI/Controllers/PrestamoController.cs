@@ -17,17 +17,35 @@ namespace LibreriaAPI.Controllers
         {
             _context = context;
         }
-        [HttpPost]
-        public IActionResult crearPrestamo(PrestamoDTO prestamoDTO)
+        [HttpGet]
+        public IActionResult Get()
         {
-            var fecha = new Fecha();
+            var listaPrestamos = _context.Prestamos.ToList();
+            var listaResultados = new List<Prestamo>();
+            var prestamo = new Prestamo();
+            foreach(var data in listaPrestamos)
+            {
+                prestamo.fechaSalida = data.fechaSalida;
+                prestamo.fechaRegreso = data.fechaRegreso;
+                prestamo.statusPrestamo = data.statusPrestamo;
+                prestamo.IdPersona = data.IdPersona;
+                prestamo.IdMaterialBibliografico = data.IdMaterialBibliografico;
+                listaResultados.Add(prestamo);
+            }
+            return Ok(new { Status = "Success", Message = "Lista de libros obtenida", Libro = listaResultados });
+        }
+
+        [HttpPost]
+        public IActionResult crearPrestamo(int idPersona,int idMaterial)
+        {
+            
             var listaLibros = _context.MaterialBibliograficos.ToList();
             var listaUsuarios = _context.Persona.ToList();
             var _validaciones = new CrearPrestamoValidacion();
             
 
-            var validacion1 = _validaciones.validarLibro(listaLibros, prestamoDTO);
-            var validacion2 = _validaciones.validarPersona(listaUsuarios, prestamoDTO);
+            var validacion1 = _validaciones.validarLibro(listaLibros, idMaterial);
+            var validacion2 = _validaciones.validarPersona(listaUsuarios, idPersona);
 
             try
             {
@@ -37,23 +55,24 @@ namespace LibreriaAPI.Controllers
                     {
                         var nuevoPrestamo = new Prestamo
                         {
+                            IdPersona = idPersona,
+                            IdMaterialBibliografico = idMaterial,
                             
-                            fechaSalida = fecha.fechaSalida.ToString(),
-                            fechaRegreso = fecha.fechaRegreso.ToString(),
-                            IdPersona = prestamoDTO.IdPersona,
-                            IdMaterialBibliografico = prestamoDTO.IdMaterialBibliografico,
                         };
+                        
+                        listaLibros.Find(x => x.IdMaterialBibliografico == idMaterial).status = false;
+                        _context.SaveChanges();
                         return Ok(new { Status = "Success", Libro = nuevoPrestamo });
                     }
                     else
                     {
                         Console.WriteLine("El usuario o el libro no son validos");
-                        return BadRequest(new { Status = "Failed", Libro = prestamoDTO });
+                        return BadRequest(new { Status = "Failed"});
                     }
                     
 
                     //_context.PrestamosAdd(nuevoPrestamo);
-                    //_contextSaveChanges();
+                    
                 }
                 else
                 {
