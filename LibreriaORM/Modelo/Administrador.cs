@@ -14,7 +14,6 @@ namespace LibreriaORM.Modelo
         public int IdAdministrador { get; set; }
         public string privilegios { get; set; }
         public int IdPersona { get; set; }
-        [ForeignKey("IdPersona")]
         public Persona Persona { get; set; }
         public Administrador()
         {

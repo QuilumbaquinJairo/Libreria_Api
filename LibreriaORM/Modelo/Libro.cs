@@ -13,7 +13,7 @@ namespace LibreriaORM.Modelo
         
         public string editorialLibro { get; set; }
         public int IdMaterialBibliografico { set; get; }
-        [ForeignKey("IdMaterialBibliografico")]
+        
         public virtual MaterialBibliografico MaterialBibliografico {  get; set; }
         public Libro() 
         {

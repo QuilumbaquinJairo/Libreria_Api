@@ -10,8 +10,9 @@ namespace LibreriaORM.Modelo
     public class Tesis : MaterialBibliografico
     {
         
-        
-        [ForeignKey("IdMaterialBibliografico")]
+        public string ISBN { get; set; }
+        public int IdMaterialBibliografico { set; get; }
+
         public virtual MaterialBibliografico MaterialBibliografico { get; set; }
         public Tesis() 
         {

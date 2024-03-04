@@ -20,10 +20,10 @@ namespace LibreriaORM.Modelo
         public string titulo { set; get; }
         public int anio { set; get; }
         public Boolean status { set; get; }
-        Libro Libro { set; get; }   
-        Tesis Tesis { set; get; }
-        Revista Revista { set; get; }
-        Prestamo Prestamo { set; get; }
+        public Libro Libro { set; get; }
+        public Tesis Tesis { set; get; }
+        public Revista Revista { set; get; }
+        public List<Prestamo> Prestamo { set; get; }
     }
     public enum tipoMaterial
     {

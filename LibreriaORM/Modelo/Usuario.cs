@@ -12,11 +12,9 @@ namespace LibreriaORM.Modelo
     public class Usuario : Persona
     {
      
-        public int IdUsuario { get; set; }
         public string Facultad { get; set; }
         public int IdPersona { get; set; }
-        [ForeignKey("IdPersona")]
-        public Persona Persona { get; set; }
+        public virtual Persona Persona { get; set; }
         public Usuario()
         {
             Rol = RolEnum.Usuario;

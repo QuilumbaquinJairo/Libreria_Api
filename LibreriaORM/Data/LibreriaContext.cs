@@ -1,8 +1,10 @@
 ﻿using LibreriaORM.Modelo;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -28,16 +30,48 @@ namespace LibreriaORM.Data
             modelBuilder.Entity<MaterialBibliografico>().Property(p => p.tipoMaterial)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<Libro>().HasOne(l => l.MaterialBibliografico).WithOne()
-           .HasForeignKey<Libro>(l => l.IdMaterialBibliografico);
-            modelBuilder.Entity<Revista>().HasOne(l => l.MaterialBibliografico).WithOne()
-           .HasForeignKey<Revista>(l => l.IdMaterialBibliografico);
-            modelBuilder.Entity<Tesis>().HasOne(l => l.MaterialBibliografico).WithOne()
-           .HasForeignKey<Tesis>(l => l.IdMaterialBibliografico);
-            modelBuilder.Entity<Prestamo>().HasOne(l => l.MaterialBibliografico).WithOne()
-          .HasForeignKey<Prestamo>(l => l.IdMaterialBibliografico);
-            modelBuilder.Entity<Prestamo>().HasOne(l => l.Persona).WithOne()
-          .HasForeignKey<Prestamo>(l => l.IdPersona);
+            modelBuilder.Entity<Libro>().
+                HasOne(e => e.MaterialBibliografico)
+                .WithOne(e => e.Libro)
+                .HasForeignKey<Libro>(l => l.IdMaterialBibliografico)
+                .IsRequired();
+            modelBuilder.Entity<Tesis>().
+                HasOne(e => e.MaterialBibliografico)
+                .WithOne(e => e.Tesis)
+                .HasForeignKey<Tesis>(e => e.IdMaterialBibliografico)
+                .IsRequired();
+            modelBuilder.Entity<Revista>().
+                HasOne(e => e.MaterialBibliografico)
+                .WithOne(e => e.Revista)
+                .HasForeignKey<Revista>(e => e.IdMaterialBibliografico)
+                .IsRequired();
+
+
+
+            //configuracion tabla prestamo
+            modelBuilder.Entity<MaterialBibliografico>()
+             .HasMany(e => e.Prestamo)
+             .WithOne(e => e.MaterialBibliografico)
+             .HasForeignKey(e => e.IdMaterialBibliografico)
+             .IsRequired();
+
+            modelBuilder.Entity<Persona>()
+             .HasMany(e => e.Prestamo)
+             .WithOne(e => e.Persona)
+             .HasForeignKey(e => e.IdPersona)
+             .IsRequired();
+            //configuracion clave foranea usuario
+            modelBuilder.Entity<Usuario>()
+            .HasOne(e => e.Persona)
+            .WithOne(e => e.Usuario)
+            .HasForeignKey<Usuario>(e => e.IdPersona)
+            .IsRequired(true);
+            //configuracion clave foranea Administradir
+            modelBuilder.Entity<Administrador>()
+            .HasOne(e => e.Persona)
+            .WithOne(e => e.Administrador)
+            .HasForeignKey<Administrador>(e => e.IdPersona)
+            .IsRequired(true);
 
             modelBuilder.Entity<Persona>().ToTable("Persona");
             modelBuilder.Entity<Usuario>().ToTable("Usuario");
