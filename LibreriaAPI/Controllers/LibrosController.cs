@@ -111,7 +111,7 @@ namespace LibreriaAPI.Controllers
                     _context.SaveChanges();
 
 
-                    return Ok(new { Status = "Success", Libro = libroDTO });
+                    return Ok("Libro creado exitosamente");
                 }
                 else
                 {

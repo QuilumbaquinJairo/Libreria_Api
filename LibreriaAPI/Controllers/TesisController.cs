@@ -93,7 +93,7 @@ namespace LibreriaAPI.Controllers
                     if (tesisDTO.Anio > DateTime.Now.Year)
                     {
                         // Mensaje de error si el año es posterior al actual
-                        return BadRequest("El año no puede ser posterior al actual" );
+                        return BadRequest("El año no puede ser posterior al actual");
                     }
 
                     var nuevaTesis = new Tesis
@@ -101,13 +101,14 @@ namespace LibreriaAPI.Controllers
                         autor = tesisDTO.Autor,
                         titulo = tesisDTO.Titulo,
                         anio = tesisDTO.Anio,
-                        status = tesisDTO.Status
+                        status = tesisDTO.Status,
+                        ISBN = tesisDTO.ISBN // Asignar el ISBN desde el DTO
                     };
 
                     _context.Tesis.Add(nuevaTesis);
                     _context.SaveChanges();
 
-                    return CreatedAtAction(nameof(GetTesis), "Tesis creada exitosamente");
+                    return Ok("Tesis creada exitosamente");
                 }
                 else
                 {

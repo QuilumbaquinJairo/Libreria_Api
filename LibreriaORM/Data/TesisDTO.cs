@@ -18,5 +18,8 @@ namespace LibreriaORM.Data
 
         [Required(ErrorMessage = "El campo Status es requerido")]
         public bool Status { get; set; }
+
+        [Required(ErrorMessage = "El campo ISBN es requerido")] // Agrega esta línea
+        public string ISBN { get; set; } // Agrega esta línea
     }
 }

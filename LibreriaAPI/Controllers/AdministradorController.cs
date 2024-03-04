@@ -106,7 +106,7 @@ namespace LibreriaAPI.Controllers
                     _context.Administrador.Add(nuevoAdministrador);
                     _context.SaveChanges();
 
-                    return CreatedAtAction(nameof(GetAdministrador), new { id = nuevoAdministrador.IdPersona }, nuevoAdministrador);
+                    return Ok("Administrador creado exitosamente");
                 }
                 else
                 {
@@ -120,6 +120,7 @@ namespace LibreriaAPI.Controllers
                 return StatusCode(500, new { Status = "Error", Message = "Error interno del servidor", ExceptionMessage = ex.InnerException?.Message });
             }
         }
+
 
         [HttpPut("{id}")]
         public IActionResult PutAdministrador(int id, [FromBody] AdministradorDTO administradorDTO)
