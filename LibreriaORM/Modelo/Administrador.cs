@@ -11,7 +11,7 @@ namespace LibreriaORM.Modelo
     public class Administrador : Persona
     {
         
-        public int IdAdministrador { get; set; }
+        
         public string privilegios { get; set; }
         public int IdPersona { get; set; }
         public Persona Persona { get; set; }

@@ -18,6 +18,7 @@ namespace LibreriaORM.Modelo
         public Usuario()
         {
             Rol = RolEnum.Usuario;
+            sancion = false;
         }
 
     }
