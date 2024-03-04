@@ -1,9 +1,7 @@
 ﻿using LibreriaORM.Data;
 using LibreriaORM.Modelo;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -20,22 +18,22 @@ namespace LibreriaAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Administrador
+
         [HttpGet]
         public IActionResult GetAdministradores()
         {
             try
             {
                 var administradores = _context.Administrador.ToList();
-                var administradoresDTO = administradores.Select(a => new AdministradorDTO
+                var administradoresDTO = administradores.Select(administrador => new AdministradorDTO
                 {
-                    Nombre = a.nombre,
-                    Apellido = a.apellido,
-                    Correo = a.correo,
-                    Telefono = a.telefono,
-                    Sancion = a.sancion,
-                    Contrasenia = a.contrasenia,
-                    Privilegios = a.privilegios
+                    Nombre = administrador.nombre,
+                    Apellido = administrador.apellido,
+                    Correo = administrador.correo,
+                    Telefono = administrador.telefono,
+                    Sancion = administrador.sancion,
+                    Contrasenia = administrador.contrasenia,
+                    Privilegios = administrador.privilegios
                 }).ToList();
 
                 return Ok(administradoresDTO);
@@ -47,13 +45,13 @@ namespace LibreriaAPI.Controllers
             }
         }
 
-        // GET: api/Administrador/5
+
         [HttpGet("{id}")]
         public IActionResult GetAdministrador(int id)
         {
             try
             {
-                var administrador = _context.Administrador.FirstOrDefault(a => a.IdAdministrador == id);
+                var administrador = _context.Administrador.FirstOrDefault(a => a.IdPersona == id);
 
                 if (administrador != null)
                 {
@@ -82,7 +80,6 @@ namespace LibreriaAPI.Controllers
             }
         }
 
-        // POST: api/Administrador
         [HttpPost]
         public IActionResult PostAdministrador([FromBody] AdministradorDTO administradorDTO)
         {
@@ -109,11 +106,10 @@ namespace LibreriaAPI.Controllers
                     _context.Administrador.Add(nuevoAdministrador);
                     _context.SaveChanges();
 
-                    return CreatedAtAction(nameof(GetAdministrador), new { id = nuevoAdministrador.IdAdministrador }, nuevoAdministrador);
+                    return CreatedAtAction(nameof(GetAdministrador), new { id = nuevoAdministrador.IdPersona }, nuevoAdministrador);
                 }
                 else
                 {
-                    // Extraer el primer mensaje de error
                     var errorMessage = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage;
                     return BadRequest(errorMessage);
                 }
@@ -125,14 +121,12 @@ namespace LibreriaAPI.Controllers
             }
         }
 
-
-        // PUT: api/Administrador/5
         [HttpPut("{id}")]
         public IActionResult PutAdministrador(int id, [FromBody] AdministradorDTO administradorDTO)
         {
             try
             {
-                var administrador = _context.Administrador.FirstOrDefault(a => a.IdAdministrador == id);
+                var administrador = _context.Administrador.FirstOrDefault(a => a.IdPersona == id);
 
                 if (administrador != null)
                 {
@@ -160,13 +154,12 @@ namespace LibreriaAPI.Controllers
             }
         }
 
-        // DELETE: api/Administrador/5
         [HttpDelete("{id}")]
         public IActionResult DeleteAdministrador(int id)
         {
             try
             {
-                var administrador = _context.Administrador.FirstOrDefault(a => a.IdAdministrador == id);
+                var administrador = _context.Administrador.FirstOrDefault(a => a.IdPersona == id);
 
                 if (administrador != null)
                 {
