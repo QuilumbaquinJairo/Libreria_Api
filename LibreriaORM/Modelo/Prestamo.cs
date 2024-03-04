@@ -18,6 +18,7 @@ namespace LibreriaORM.Modelo
         public string fechaRegreso { get; set; }
         public int IdPersona { get; set; }
         public int IdMaterialBibliografico { get; set; }
+        public Boolean statusPrestamo { get; set; }
         
 
         public Persona Persona;
