@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LibreriaORM.Data
 {
-    public class LibroDTO
+    public class TesisDTO
     {
         [Required(ErrorMessage = "El campo Autor es requerido")]
         [StringLength(50, ErrorMessage = "El campo Autor no puede tener más de 50 caracteres")]
@@ -23,8 +18,5 @@ namespace LibreriaORM.Data
 
         [Required(ErrorMessage = "El campo Status es requerido")]
         public bool Status { get; set; }
-        [Required(ErrorMessage = "El campo Editorial es requerido")]
-        [StringLength(50, ErrorMessage = "El campo Editorial no puede tener más de 50 caracteres")]
-        public string EditorialLibro { get; set; }
     }
 }

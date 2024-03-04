@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace LibreriaORM.Data
 {
-    public class LibroDTO
+    public class RevistaDTO
     {
         [Required(ErrorMessage = "El campo Autor es requerido")]
         [StringLength(50, ErrorMessage = "El campo Autor no puede tener más de 50 caracteres")]
@@ -25,6 +26,6 @@ namespace LibreriaORM.Data
         public bool Status { get; set; }
         [Required(ErrorMessage = "El campo Editorial es requerido")]
         [StringLength(50, ErrorMessage = "El campo Editorial no puede tener más de 50 caracteres")]
-        public string EditorialLibro { get; set; }
+        public string EditorialRevista { get; set; }
     }
 }

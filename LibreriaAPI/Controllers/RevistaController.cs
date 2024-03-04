@@ -9,36 +9,36 @@ namespace LibreriaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LibrosController : ControllerBase
+    public class RevistaController : ControllerBase
     {
         private readonly LibreriaContext _context;
 
-        public LibrosController(LibreriaContext context)
+        public RevistaController(LibreriaContext context)
         {
             _context = context;
         }
 
-        // GET: api/<LibrosController>
+        // GET: api/<RevistaController>
         [HttpGet]
-        public IActionResult GetLibros()
+        public IActionResult GetRevistas()
         {
             try
             {
-                var listaLibros = _context.Libros.ToList();
-                var listaResultado = new List<LibroDTO>();
+                var listaRevistas = _context.Revista.ToList();
+                List<RevistaDTO> listaResultado = new List<RevistaDTO>();
 
-                foreach (var libro in listaLibros)
+                foreach (var revista in listaRevistas)
                 {
-                    var libroDTO = new LibroDTO
+                    RevistaDTO revistaDTO = new RevistaDTO
                     {
-                        Autor = libro.autor,
-                        Titulo = libro.titulo,
-                        Anio = libro.anio,
-                        Status = libro.status,
-                        EditorialLibro = libro.editorialLibro
+                        Autor = revista.autor,
+                        Titulo = revista.titulo,
+                        Anio = revista.anio,
+                        Status = revista.status,
+                        EditorialRevista = revista.EditorialRevista
                     };
 
-                    listaResultado.Add(libroDTO);
+                    listaResultado.Add(revistaDTO);
                 }
 
                 return Ok(listaResultado);
@@ -50,31 +50,30 @@ namespace LibreriaAPI.Controllers
             }
         }
 
-
-        // GET api/<LibrosController>/5
+        // GET api/<RevistaController>/5
         [HttpGet("{id}")]
-        public IActionResult GetLibro(int id)
+        public IActionResult GetRevista(int id)
         {
             try
             {
-                var libro = _context.Libros.FirstOrDefault(l => l.IdMaterialBibliografico == id);
+                var revista = _context.Revista.FirstOrDefault(r => r.IdMaterialBibliografico == id);
 
-                if (libro != null)
+                if (revista != null)
                 {
-                    var libroDTO = new LibroDTO
+                    var revistaDTO = new RevistaDTO
                     {
-                        Autor = libro.autor,
-                        Titulo = libro.titulo,
-                        Anio = libro.anio,
-                        Status = libro.status,
-                        EditorialLibro = libro.editorialLibro
+                        Autor = revista.autor,
+                        Titulo = revista.titulo,
+                        Anio = revista.anio,
+                        Status = revista.status,
+                        EditorialRevista = revista.EditorialRevista
                     };
 
-                    return Ok(new { Status = "Success", Libro = libroDTO });
+                    return Ok(revistaDTO);
                 }
                 else
                 {
-                    return NotFound("Libro no encontrado");
+                    return NotFound("Revista no encontrada");
                 }
             }
             catch (Exception ex)
@@ -84,34 +83,33 @@ namespace LibreriaAPI.Controllers
             }
         }
 
-        // POST api/<LibrosController>
+        // POST api/<RevistaController>
         [HttpPost]
-        public IActionResult Post([FromBody] LibroDTO libroDTO)
+        public IActionResult Post([FromBody] RevistaDTO revistaDTO)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (libroDTO.Anio > DateTime.Now.Year)
+                    if (revistaDTO.Anio > DateTime.Now.Year)
                     {
                         // Mensaje de error si el año es posterior al actual
                         return BadRequest("El año no puede ser posterior al actual");
                     }
 
-                    var nuevoLibro = new Libro
+                    var nuevaRevista = new Revista
                     {
-                        autor = libroDTO.Autor,
-                        titulo = libroDTO.Titulo,
-                        anio = libroDTO.Anio,
-                        status = libroDTO.Status,
-                        editorialLibro = libroDTO.EditorialLibro
+                        autor = revistaDTO.Autor,
+                        titulo = revistaDTO.Titulo,
+                        anio = revistaDTO.Anio,
+                        status = revistaDTO.Status,
+                        EditorialRevista = revistaDTO.EditorialRevista
                     };
 
-                    _context.Libros.Add(nuevoLibro);
+                    _context.Revista.Add(nuevaRevista);
                     _context.SaveChanges();
 
-                  
-                    return CreatedAtAction(nameof(GetLibros), "Libro creado exitosamente");
+                    return CreatedAtAction(nameof(GetRevistas), "Revista creada exitosamente");
                 }
                 else
                 {
@@ -128,30 +126,30 @@ namespace LibreriaAPI.Controllers
         }
 
 
-        // PUT api/<LibrosController>/5
+
+        // PUT api/<RevistaController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] LibroDTO libroDTO)
+        public IActionResult Put(int id, [FromBody] RevistaDTO revistaDTO)
         {
             try
             {
-                var libro = _context.Libros.FirstOrDefault(l => l.IdMaterialBibliografico == id);
+                var revista = _context.Revista.FirstOrDefault(r => r.IdMaterialBibliografico == id);
 
-                if (libro != null)
+                if (revista != null)
                 {
-                    libro.autor = libroDTO.Autor;
-
-                    libro.titulo = libroDTO.Titulo;
-                    libro.anio = libroDTO.Anio;
-                    libro.status = libroDTO.Status;
-                    libro.editorialLibro = libroDTO.EditorialLibro;
+                    revista.autor = revistaDTO.Autor;
+                    revista.titulo = revistaDTO.Titulo;
+                    revista.anio = revistaDTO.Anio;
+                    revista.status = revistaDTO.Status;
+                    revista.EditorialRevista = revistaDTO.EditorialRevista;
 
                     _context.SaveChanges();
 
-                    return Ok("Libro actualizado exitosamente");
+                    return Ok("Revista actualizada exitosamente");
                 }
                 else
                 {
-                    return NotFound("Libro no encontrado");
+                    return NotFound("Revista no encontrada");
                 }
             }
             catch (Exception ex)
@@ -161,24 +159,24 @@ namespace LibreriaAPI.Controllers
             }
         }
 
-        // DELETE api/<LibrosController>/5
+        // DELETE api/<RevistaController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             try
             {
-                var libro = _context.Libros.FirstOrDefault(l => l.IdMaterialBibliografico == id);
+                var revista = _context.Revista.FirstOrDefault(r => r.IdMaterialBibliografico == id);
 
-                if (libro != null)
+                if (revista != null)
                 {
-                    _context.Libros.Remove(libro);
+                    _context.Revista.Remove(revista);
                     _context.SaveChanges();
 
-                    return Ok("Libro eliminado exitosamente");
+                    return Ok("Revista eliminada exitosamente");
                 }
                 else
                 {
-                    return NotFound("Libro no encontrado");
+                    return NotFound("Revista no encontrada");
                 }
             }
             catch (Exception ex)
