@@ -19,6 +19,7 @@ namespace LibreriaORM.Modelo
         public string telefono { get; set; }
         public bool sancion { get; set; }
         public RolEnum Rol { get; set; }
+        public string contrasenia {  get; set; }
         
         public Usuario? Usuario { get; set; }
         public Administrador? Administrador { get; set; }
